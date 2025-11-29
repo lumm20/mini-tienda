@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "backend del proyecto 'mini-tienda' para la clase de Emergentes",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lumm20/mini-tienda.git"
   },
   "keywords": [
     "mini-tienda",
@@ -17,10 +16,6 @@
   ],
   "author": "LuisaM",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lumm20/mini-tienda/issues"
-  },
-  "homepage": "https://github.com/lumm20/mini-tienda#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",

@@ -1,7 +1,7 @@
 import e from "express";
-import saleRouter from "./sale.router";
+import saleRouter from "./sale.router.js";
 import productRouter
- from "./product.router";
+ from "./product.router.js";
 const router = e.Router();
 
 router.use('/sales',saleRouter);

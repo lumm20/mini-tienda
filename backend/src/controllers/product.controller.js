@@ -1,60 +1,77 @@
-import { Product } from "../models";
+import { Product } from "../models/index.js";
+import { checkResults } from "../middlewares/validators/checkResults.js";
+import AppError from "../utils/AppError.js";
 
-const addProduct = async (req, res)=>{
-    console.log('adding product');
-    checkResults(req);
-    const { prod } = req.body;
-    const newProd = await Product.create(prod);
-    console.log(newProd);
-    res.status(201).json({ message: 'created succesfully!' });
-}
-
-const getProduct = async (req, res) =>{
-    checkResults(req);
-    const { id } = req.params;
-    const prod = await Product.findByPk(id);
-    console.log('product found:',prod);
-    if(prod.dataValues) return res.status(200).json(prod.dataValues);
-    
-    throw new AppError('Product not found',404);
-}
-
-const getAll = async (req,res) =>{
-    const results = await Product.findAll({});
-    console.log('Products found:',results);
-    if(results.length > 0){ 
-        const prods = results.map(result =>result.dataValues);
-        return res.status(200).json({products: prods})
+const addProduct = async (req, res, next) => {
+    try {
+        console.log('adding product');
+        checkResults(req);
+        const { name, description, price, stock } = req.body;
+        const newProd = await Product.create({ name, description, price, stock });
+        console.log(newProd);
+        res.status(201).json({ message: 'created succesfully!' });
+    } catch (error) {
+        next(error);
     }
-    throw new AppError('Products not found',404);
 }
 
-const deleteProduct = async (req, res) =>{
-    checkResults(req);
-    const { id } = req.params;
-    const prodFound = await Product.findByPk(id);
-    if(prodFound.dataValues) {
-        const deleted = await Product.destroy(prodFound,{where:{id:id}});
-        console.log(deleted);
-        return res.status(200).json({message:'Deleted succesfully!'});
+const getProduct = async (req, res, next) => {
+    try {
+        checkResults(req);
+        const { id } = req.params;
+        const prod = await Product.findByPk(id);
+        console.log('product found:', prod);
+        
+        if (prod) return res.status(200).json(prod);
+        
+        throw new AppError('Product not found', 404);
+    } catch (error) {
+        next(error);
     }
-    throw new AppError('Product not found,404');
 }
 
-const updateProduct = async (req, res) =>{
-    checkResults(req);
-    const { id } = req.params;
-    const prod = req.body;
-    const prodFound = await Product.findByPk(id);
-    if(prodFound.dataValues) {
-        const updated = await Product.update(
-            prod,//todo: especificar campos a actualizar
-            {where:{id:id}, returning:true});
-            console.log(updated[1].at(0));
-            return res.status(200).json({message:'Updated succesfully!'});
+const getAll = async (req, res, next) => {
+    try {
+        const results = await Product.findAll({});
+        console.log('Products found:', results);
+        res.status(200).json({ products: results });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteProduct = async (req, res, next) => {
+    try {
+        checkResults(req);
+        const { id } = req.params;
+        const prodFound = await Product.findByPk(id);
+        
+        if (prodFound) {
+            await Product.destroy({ where: { id: id } });
+            return res.status(200).json({ message: 'Deleted succesfully!' });
         }
-    throw new AppError('Product not found,404');
+        throw new AppError('Product not found', 404);
+    } catch (error) {
+        next(error);
+    }
 }
 
+const updateProduct = async (req, res, next) => {
+    try {
+        checkResults(req);
+        const { id } = req.params;
+        const prodData = req.body;
+        
+        const prodFound = await Product.findByPk(id);
+        
+        if (prodFound) {
+            await Product.update(prodData, { where: { id: id } });
+            return res.status(200).json({ message: 'Updated succesfully!' });
+        }
+        throw new AppError('Product not found', 404);
+    } catch (error) {
+        next(error);
+    }
+}
 
-export { addProduct, getProduct, getAll, deleteProduct, updateProduct};
+export { addProduct, getProduct, getAll, deleteProduct, updateProduct };

@@ -3,15 +3,16 @@ import AppError from "../utils/AppError.js";
 import { checkResults } from "../middlewares/validators/checkResults.js";
 
 const addSale = async (req, res, next) => {
-    try {
-        checkResults(req);
+    try {        
         const { totalAmount, details } = req.body;
 
+        // Crear la venta (Cabecera)
         const newSale = await Sale.create({
             date: new Date(),
             totalAmount: totalAmount
         });
 
+        // Crear los detalles y asociarlos
         if (details && details.length > 0) {
             for (const item of details) {
                 await SaleDetails.create({
@@ -21,7 +22,6 @@ const addSale = async (req, res, next) => {
                     unitPrice: item.unitPrice,
                     subtotal: item.subtotal
                 });
-                
             }
         }
 
