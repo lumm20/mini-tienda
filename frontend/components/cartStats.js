@@ -125,6 +125,4 @@ function renderStats(container) {
 
     container.appendChild(statsList);
     
-    // Aquí se podría agregar un fetch a /api/products para comparar
-    // "Productos en carrito vs Productos totales en tienda"
 }
