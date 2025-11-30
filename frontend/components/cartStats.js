@@ -75,7 +75,7 @@ async function realizarCompra() {
 
     } catch (error) {
         console.error('Error en compra:', error);
-        alert('Hubo un error al procesar tu compra. Revisa la consola para más detalles.');
+        alert('¡Oops!, Hubo un error al procesar tu compra.');
     }
 }
 

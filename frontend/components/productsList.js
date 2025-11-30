@@ -65,7 +65,7 @@ async function renderProductsList(container) {
         errorDiv.className = 'error-message';
         errorDiv.style.color = 'red';
         errorDiv.style.marginTop = '20px';
-        errorDiv.textContent = 'Ocurrió un error al cargar los productos. Por favor, revisa que el backend esté corriendo e intenta de nuevo.';
+        errorDiv.textContent = 'Ocurrió un error al cargar los productos. Por favor, intenta de nuevo más tarde.';
         
         container.appendChild(errorDiv);
     }
