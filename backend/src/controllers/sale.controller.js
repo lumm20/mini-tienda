@@ -91,7 +91,6 @@ const addSale = async (req, res)=>{
             subtotal: Number.parseFloat((Number.parseFloat(price)* productQuantity).toFixed(2)),
         }});
     }
-    console.log('products---',await newSale.getProducts());
     res.status(201).json({ message: 'created succesfully!' });
 }
 

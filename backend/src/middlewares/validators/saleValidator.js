@@ -18,33 +18,15 @@ const validateSale = () => {
         body('details')
             .isArray({ min: 1 }).withMessage('La venta debe incluir al menos un producto')//si es un array con al menos un elemento
             .bail(),
-        body('details.*.productQuantity')//valida la cantidad ingresada de cada producto en los detalles de la venta
-            .custom((productQuantity, { req, pathValues }) => {
-                //obtiene el indicie del producto en el array de details
-                const index = Number(pathValues[0]);
-                //obtiene el id del producto con el indice obtenido
-                const { productId } = req.body.details[index];
-
-                validateSaleProducts(productQuantity, productId);
-            })
+        //valida el id de cada producto en los detalles de la venta
+        body('details.*.productId')
+            .isInt({ min: 1 }).withMessage('ID de producto inválido'),
+        //valida la cantidad ingresada de cada producto en los detalles de la venta
+        body('details.*.productQuantity')
+            .isInt({ min: 1 }).withMessage('La cantidad debe ser al menos 1')
     ]
 }
 
-
-/**
- * valida si la cantidad e id del producto son validos (si son numeros enteros mayores a 0)
- * @param {*} quantity la cantidad de producto en la venta
- * @param {*} id el id del producto
- */
-const validateSaleProducts= (quantity, id) =>{
-    if (!quantity || !Number.isInteger(quantity) || quantity < 1) {
-        throw new AppError('La cantidad de producto debe ser un número entero mayor a 0', 400);
-    }
-
-    if (!id || !Number.isInteger(id) || id < 1) {
-        throw new AppError('Ingresó un ID de producto inválido', 400);
-    }
-}
 /**
  * valida si el id ingresado en el parametro es válido (debe ser un número entero mayor a 0)
  * @returns 

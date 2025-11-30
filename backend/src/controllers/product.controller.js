@@ -39,7 +39,7 @@ const getProduct = async (req, res) =>{
 
 const getAll = async (req,res) =>{
     const results = await Product.findAll({});
-    console.log('Products found:',results);
+    // console.log('Products found:',results);
     if(results.length > 0){ 
         const prods = results.map(result =>result.dataValues);
         return res.status(200).json({products: prods})
