@@ -17,8 +17,8 @@ import AppError from "../utils/AppError.js";
 const findProduct = async (id)=>{
     const prod = await Product.findByPk(id);
     if(prod && prod.dataValues){
-        console.log('product found:', prod.dataValues);
-        return prod.dataValues;
+        // console.log('product found:', prod.dataValues);
+        return prod;
     } 
     throw new AppError('Product not found',404);
 }
@@ -27,14 +27,14 @@ const addProduct = async (req, res)=>{
     console.log('adding product');
     const { name, description, price, stock  } = req.body;
     const newProd = await Product.create({name, description, price, stock });
-    console.log(newProd);
+    // console.log(newProd);
     res.status(201).json({ message: 'created succesfully!' });
 }
 
 const getProduct = async (req, res) =>{
     const { id } = req.params;
     const product = await findProduct(id);
-    return res.status(200).json(product);
+    return res.status(200).json(product.dataValues);
 }
 
 const getAll = async (req,res) =>{
@@ -49,19 +49,19 @@ const getAll = async (req,res) =>{
 const deleteProduct = async (req, res) =>{
     const { id } = req.params;
     const product = await findProduct(id);
-    const deleted = await Product.destroy(product,{where:{id:id}});
-    console.log(deleted);
+    await product.destroy();
     return res.status(200).json({message:'Deleted succesfully!'});
 }
 
 const updateProduct = async (req, res) => {
     const { id } = req.params;
     const prod = req.body;
-    await findProduct(id);
-    const updated = await Product.update(
-        prod,//todo: especificar campos a actualizar
-        { where: { id: id }, returning: true });
-    console.log(updated[1].at(0));
+    const prodFound = await findProduct(id);
+    await prodFound.update(prod);
+    // const updated = await Product.update(
+    //     prod,//todo: especificar campos a actualizar
+    //     { where: { id: id }, returning: true });
+    // console.log(prodFound);
     return res.status(200).json({ message: 'Updated succesfully!' });
 }
 
