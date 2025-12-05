@@ -1,4 +1,4 @@
-import { Sale, SaleDetails, Product } from "../models/index.js";
+import { Sale, Product } from "../models/index.js";
 import AppError from "../utils/AppError.js";
 import { findProduct } from "./product.controller.js";
 
@@ -84,6 +84,9 @@ const addSale = async (req, res)=>{
     for(const item of prodsFound){
         const {product, productQuantity} = item;
         const {id,price}= product;
+
+        await product.decrement('stock');
+        // console.log('prod:',product);
         //con esto se registran los detalles de venta en la table de union
         await newSale.addProduct(id,{through:{
             productQuantity,
@@ -101,8 +104,19 @@ const getSale = async (req, res) =>{
 }
 
 const getAll = async (req,res) =>{
-    const results = await Sale.findAll({});
-    console.log('Sales found:',results);
+    const results = await Sale.findAll({include: [
+        {
+            model: Product,
+            through: {
+                attributes: [
+                    'unitPrice',
+                    'productQuantity',
+                    'subtotal'
+                ]
+            }
+        }
+    ]});
+    // console.log('Sales found:',results.dataValues);
     if(results.length > 0){ 
         const sales = results.map(result =>result.dataValues);
         return res.status(200).json({sales: sales})
