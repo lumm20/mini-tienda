@@ -66,7 +66,7 @@ async function realizarCompra() {
             throw new Error(result.message || 'Error al procesar la venta');
         }
 
-        alert(`¡Compra realizada con éxito! ID de venta: ${result.saleId}`);
+        alert(`¡Compra realizada con éxito!`);
         
         // Limpiar carrito y recargar vista
         localStorage.removeItem('mini-tienda-cart');
