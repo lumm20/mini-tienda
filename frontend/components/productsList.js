@@ -25,10 +25,25 @@ async function renderProductsList(container) {
             return;
         }
 
+        console.log(products);
         products.forEach(product => {
             const card = document.createElement('div');
             card.className = 'product-card';
 
+            // Imagen del producto
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = 'product-image-wrapper';
+            
+            const img = document.createElement('img');
+            img.className = 'product-image';
+            img.src = product.image || 'https://via.placeholder.com/300x200/1a1625/a78bfa?text=Producto';
+            img.alt = product.name;
+            // Manejar error de carga de imagen
+            img.onerror = function() {
+                this.src = 'https://via.placeholder.com/300x200/1a1625/a78bfa?text=Sin+Imagen';
+            };
+            
+            imgWrapper.appendChild(img);
             // Nombre
             const name = document.createElement('h3');
             name.textContent = product.name;
@@ -50,6 +65,7 @@ async function renderProductsList(container) {
                 addToCart(product);
             });
 
+            card.appendChild(imgWrapper);
             card.appendChild(name);
             card.appendChild(desc);
             card.appendChild(price);
