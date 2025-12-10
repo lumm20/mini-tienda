@@ -12,49 +12,57 @@ async function main() {
                 name: "Cyberpunk 2077: Ultimate Edition",
                 description: "RPG de mundo abierto en Night City. Gráficos brutales y neon por todos lados.",
                 price: 1200.00,
-                stock: 50
+                stock: 50,
+                image: 'cyberpunk.webp'
             },
             {
                 name: "Elden Ring",
                 description: "El GOTY definitivo. Prepárate para morir mil veces, pero épicamente.",
                 price: 1100.00,
-                stock: 30
+                stock: 30,
+                image: 'elden.webp'
             },
             {
                 name: "God of War Ragnarök",
                 description: "Acompaña a Kratos y Atreus en el fin del mundo nórdico. Historia 10/10.",
                 price: 1350.00,
-                stock: 25
+                stock: 25,
+                image: 'god-of-war-ragnarok.webp'
             },
             {
                 name: "Grand Theft Auto V",
                 description: "El clásico que nunca muere. Mundo abierto, caos y misiones legendarias.",
                 price: 500.00,
-                stock: 100
+                stock: 100,
+                image: 'gta-v.webp'
             },
             {
                 name: "Call of Duty: Modern Warfare III",
                 description: "Puro disparo frenético. Ideal para el multiplayer con los compas.",
                 price: 1400.00,
-                stock: 40
+                stock: 40,
+                image: 'cod.webp'
             },
             {
                 name: "The Legend of Zelda: TOTK",
                 description: "Explora cielo y tierra en esta obra maestra de aventura y creatividad.",
                 price: 1299.00,
-                stock: 20
+                stock: 20,
+                image: 'zelda.webp'
             },
             {
                 name: "Minecraft Java & Bedrock",
                 description: "Construye lo que quieras. El único límite es tu imaginación (y la RAM).",
                 price: 600.00,
-                stock: 60
+                stock: 60,
+                image: 'minecraft.webp'
             },
             {
                 name: "EA SPORTS FC 24",
                 description: "El fútbol más realista. Arma tu equipo de ensueño en Ultimate Team.",
                 price: 1000.00,
-                stock: 45
+                stock: 45,
+                image: 'eas-fc.webp'
             }
         ]);
 

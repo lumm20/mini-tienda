@@ -1,19 +1,15 @@
 import { Product } from "../models/index.js";
-import { checkResults } from "../middlewares/validators/checkResults.js";
 import AppError from "../utils/AppError.js";
 
-// const addProduct = async (req, res, next) => {
-//     try {
-//         console.log('adding product');
-//         checkResults(req);
-//         const { name, description, price, stock } = req.body;
-//         const newProd = await Product.create({ name, description, price, stock });
-//         console.log(newProd);
-//         res.status(201).json({ message: 'created succesfully!' });
-//     } catch (error) {
-//         next(error);
-//     }
-// }
+const baseUrl= 'http://localhost:3000/public/';
+
+const formatProduct = (product)=>{
+    const imgName = product.image;
+    const url = baseUrl+imgName;
+    product.image = url;
+    return product;
+}
+
 const findProduct = async (id)=>{
     const prod = await Product.findByPk(id);
     if(prod && prod.dataValues){
@@ -33,8 +29,9 @@ const addProduct = async (req, res)=>{
 
 const getProduct = async (req, res) =>{
     const { id } = req.params;
-    const product = await findProduct(id);
-    return res.status(200).json(product.dataValues);
+    const productFound = await findProduct(id);
+    const product = formatProduct(productFound.dataValues); 
+    return res.status(200).json(product);
 }
 
 const getAll = async (req,res) =>{
@@ -42,6 +39,8 @@ const getAll = async (req,res) =>{
     // console.log('Products found:',results);
     if(results.length > 0){ 
         const prods = results.map(result =>result.dataValues);
+        prods.forEach((prod)=>(formatProduct(prod)));
+        console.log('prods:',prods);
         return res.status(200).json({products: prods})
     }
 }

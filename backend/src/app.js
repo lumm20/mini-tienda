@@ -5,10 +5,16 @@ import helmet from "helmet";
 import cors from "cors";
 const app = e();
 
-app.use(helmet());
+app.use(helmet(
+    {
+        crossOriginResourcePolicy: false,
+    }
+));
 app.use(cors());
 app.use(e.json());
 app.use(e.urlencoded({ extended: true }));
+
+app.use('/public',e.static('public'));
 
 app.use('/api',router);
 
